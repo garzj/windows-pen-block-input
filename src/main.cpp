@@ -44,6 +44,12 @@ int WINAPI WinMain(
     return Exit(DumpLastError());
   }
 
+  // Listen for pen input
+  if (!RegisterPointerInputTarget(hWnd, PT_TOUCH)) {
+    std::wcout << "Failed to register the window as a pointer input target.\n ";
+    return Exit(DumpLastError());
+  }
+
   // Message loop
   MSG msg;
   BOOL bRet;
