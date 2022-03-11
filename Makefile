@@ -17,6 +17,9 @@ library = $(build_dir)/hook.dll
 gcc_args = -lgdi32 -static-libgcc -static-libstdc++ \
 	-Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive \
 	-Isrc/shared/
+ifneq ($(MAKECMDGOALS),dev)
+	gcc_args += -mwindows
+endif
 
 src_files = $(call rwildcard,src/$1/,*.cpp)
 hook_files := $(call src_files,hook)
