@@ -38,9 +38,6 @@ main: build_dir $(main_files)
 		-o $(binary_name) $(main_files) \
 		$(gcc_args)
 
-clean:
-	rm -f $(build_dir) || rmdir /s /q $(build_dir)
-
 run:
 	./$(binary) || $(call winpath,$(binary))
 
@@ -51,3 +48,6 @@ dev: all run
 
 watch:
 	nodemon --watch ./src/** --ext cpp,hpp,c,h --exec make dev
+
+clean:
+	rm -f $(build_dir) || rmdir /s /q $(build_dir)
