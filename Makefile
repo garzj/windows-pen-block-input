@@ -71,5 +71,5 @@ del-cert:
 dll-dump:
 	objdump -p $(binary) | findstr "DLL Name:"
 
-clean:
+clean: del-cert
 	rmdir /s /q $(build_dir)
