@@ -10,7 +10,6 @@ HWND SHARED hWndMain = NULL;
 LRESULT CALLBACK GetMsgProc(int code, WPARAM wParam, LPARAM lParam);
 
 HINSTANCE hInstance = NULL;
-UINT UWM_POINTER_UPDATE;
 HHOOK hHook = NULL;
 
 extern "C" {
@@ -36,7 +35,6 @@ BOOL APIENTRY DllMain(HINSTANCE hModule, DWORD reason, LPVOID lpReserved) {
   switch (reason) {
   case DLL_PROCESS_ATTACH:
     hInstance = hModule;
-    UWM_POINTER_UPDATE = RegisterWindowMessage(UWM_POINTER_UPDATE_MSG);
     return TRUE;
 
   case DLL_PROCESS_DETACH:
@@ -54,10 +52,12 @@ LRESULT CALLBACK GetMsgProc(int code, WPARAM wParam, LPARAM lParam) {
   }
 
   MSG *msg = (MSG *)lParam;
-  if (msg->message == WM_POINTERDOWN || msg->message == WM_POINTERUP) {
-    PostMessage(hWndMain, UWM_POINTER_UPDATE, wParam, lParam);
-    // GetLastError() could result in error 5 here, because of UIPI
+  if (msg->message == WM_POINTERENTER) {
+    PostMessage(hWndMain, UWM_POINER_ENTER, msg->wParam, msg->lParam);
+  } else if (msg->message == WM_POINTERLEAVE) {
+    PostMessage(hWndMain, UWM_POINER_LEAVE, msg->wParam, msg->lParam);
   }
+  // GetLastError() could result in error 5 here, because of UIPI
 
   return CallNextHookEx(hHook, code, wParam, lParam);
 }

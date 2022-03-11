@@ -1,9 +1,9 @@
 #pragma once
 
-#define UWM_POINTER_UPDATE_MSG \
-  L"UWM_POINTER_UPDATE-{14EB729E-91C7-464F-B088-7F680D5FDDB8}"
-
 #include "win.hpp"
+
+#define UWM_POINER_ENTER WM_USER + 1
+#define UWM_POINER_LEAVE WM_USER + 2
 
 typedef BOOL (*HOOK_REGISTER)(HWND hWnd);
 typedef BOOL (*HOOK_UNREGISTER)();

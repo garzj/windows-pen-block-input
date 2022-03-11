@@ -3,15 +3,26 @@
 #include <conio.h>
 #include <iostream>
 
-UINT UWM_POINTER_UPDATE;
 wchar_t className[] = L"StylusDisableKeyboard";
 
-LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-  if (uMsg == UWM_POINTER_UPDATE) {
-    UINT32 pointerId = GET_POINTERID_WPARAM(wParam);
-
-    std::wcout << "Pointer update: " << pointerId << "\n";
+void OnPointerEnter(bool entered, UINT32 pointerId) {
+  if (entered) {
+    std::wcout << "Pointer entered: " << pointerId << "\n";
+  } else {
+    std::wcout << "Pointer left: " << pointerId << "\n";
   }
+}
+
+LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+  switch (uMsg) {
+  case UWM_POINER_ENTER:
+    OnPointerEnter(true, GET_POINTERID_WPARAM(wParam));
+    break;
+  case UWM_POINER_LEAVE:
+    OnPointerEnter(false, GET_POINTERID_WPARAM(wParam));
+    break;
+  }
+
   return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
@@ -20,9 +31,6 @@ int WINAPI WinMain(
   HINSTANCE hPrevInstance,
   LPSTR lpCmdLine,
   int nCmdShow) {
-  // Register user messages
-  UWM_POINTER_UPDATE = RegisterWindowMessage(UWM_POINTER_UPDATE_MSG);
-
   // Create message-only window
   HWND hWnd = NULL;
   WNDCLASSEX wc = {};
