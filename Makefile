@@ -12,45 +12,35 @@ build_dir = build
 
 binary_name = $(build_dir)/$(name)
 binary = $(binary_name).exe
-dll = $(binary_name).dll
+
+cpp_files = $(call rwildcard,src/,*.cpp)
 
 gcc_args = -lgdi32 -static-libgcc -static-libstdc++ \
-	-Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive \
-	-Isrc/shared/
+	-Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive
 ifneq ($(MAKECMDGOALS),dev)
 	gcc_args += -mwindows
 endif
 
-src_files = $(call rwildcard,src/$1/,*.cpp)
-hook_files := $(call src_files,hook)
-main_files := $(call src_files,main)
+all: build
 
-all: hook main
-
-build_dir:
-	$(call mkdir,$(build_dir))
-
-hook: build_dir $(hook_files)
+build: build_dir $(cpp_files)
 	g++ \
-		-shared -Wl,--subsystem,windows \
-		-o $(dll) $(hook_files) \
-		$(gcc_args)
-
-main: build_dir $(main_files)
-	g++ \
-		-o $(binary_name) $(main_files) \
+		-o $(binary_name) $(cpp_files) \
 		$(gcc_args)
 
 run:
-	./$(binary) || $(call winpath,$(binary))
-
-dll-dump:
-	objdump -p $(binary) | (grep "DLL Name:" || findstr "DLL Name:")
+	$(call winpath,$(binary))
 
 dev: all run
 
 watch:
 	nodemon --watch ./src/** --ext cpp,hpp,c,h --exec make dev
 
+build_dir:
+	$(call mkdir,$(build_dir))
+
+dll-dump:
+	objdump -p $(binary) | findstr "DLL Name:"
+
 clean:
-	rm -f $(build_dir) || rmdir /s /q $(build_dir)
+	rmdir /s /q $(build_dir)
