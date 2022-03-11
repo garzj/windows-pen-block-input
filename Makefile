@@ -12,7 +12,7 @@ build_dir = build
 
 binary_name = $(build_dir)/$(name)
 binary = $(binary_name).exe
-library = $(build_dir)/hook.dll
+dll = $(binary_name).dll
 
 gcc_args = -lgdi32 -static-libgcc -static-libstdc++ \
 	-Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive \
@@ -33,7 +33,7 @@ build_dir:
 hook: build_dir $(hook_files)
 	g++ \
 		-shared -Wl,--subsystem,windows \
-		-o $(library) $(hook_files) \
+		-o $(dll) $(hook_files) \
 		$(gcc_args)
 
 main: build_dir $(main_files)

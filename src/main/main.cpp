@@ -35,9 +35,9 @@ int WINAPI WinMain(
   }
 
   // Inject hook DLL
-  HMODULE hookDll = LoadLibrary(L"hook.dll");
+  HMODULE hookDll = LoadLibrary(L"stylus-block-input.dll");
   if (hookDll == NULL) {
-    std::wcout << "Failed to load the hook.dll library.\n";
+    std::wcout << "Failed to load the stylus-block-input.dll library.\n";
     return Exit(DumpLastError());
   }
   HOOK_REGISTER RegisterHook =
