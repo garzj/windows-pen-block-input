@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+  <assemblyIdentity version="1.0.0.0" processorArchitecture="X86" name="StylusBlockInput" type="win32" />
+  <description>A windows app that blocks other user inputs while a stylus pen is used.</description>
+  <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    <security>
+      <requestedPrivileges>
+        <requestedExecutionLevel level="requireAdministrator" uiAccess="true" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+</assembly>

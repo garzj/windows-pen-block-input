@@ -13,6 +13,9 @@ build_dir = build
 binary_name = $(build_dir)/$(name)
 binary = $(binary_name).exe
 
+resources = resources.rc
+resources_obj = $(build_dir)/resources.o
+
 cert_key = $(build_dir)/cert_key
 cert_cer = $(build_dir)/testcert.cer
 cert_pfx = $(build_dir)/testcert.pfx
@@ -29,8 +32,9 @@ endif
 all: build
 
 build: build_dir $(cpp_files)
+	windres $(resources) $(resources_obj)
 	g++ \
-		-o $(binary_name) $(cpp_files) \
+		-o $(binary_name) $(cpp_files) $(resources_obj) \
 		$(gcc_args)
 	make sign
 
