@@ -15,6 +15,7 @@ binary = $(binary_name).exe
 library = $(build_dir)/hook.dll
 
 gcc_args = -lgdi32 -static-libgcc -static-libstdc++ \
+	-Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive \
 	-Isrc/shared/
 
 src_files = $(call rwildcard,src/$1/,*.cpp)
