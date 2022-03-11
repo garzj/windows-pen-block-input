@@ -1,4 +1,4 @@
-name = stylus-disable-keyboard
+name = stylus-block-input
 
 rwildcard = $(wildcard $(addsuffix $2, $1)) $(foreach d,$(wildcard $(addsuffix *, $1)),$(call rwildcard,$d/,$2))
 winpath = $(subst /,\,$1)

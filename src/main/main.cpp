@@ -4,7 +4,7 @@
 #include <conio.h>
 #include <iostream>
 
-wchar_t className[] = L"StylusDisableKeyboard";
+wchar_t className[] = L"StylusBlockInput";
 
 void OnPointerEnter(bool entered, POINTER_INPUT_TYPE pointerType);
 LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
