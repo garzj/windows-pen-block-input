@@ -1,4 +1,5 @@
 #include "hook.hpp"
+#include "log.hpp"
 #include "win.hpp"
 #include <conio.h>
 #include <iostream>
@@ -47,35 +48,38 @@ int WINAPI WinMain(
   HINSTANCE hPrevInstance,
   LPSTR lpCmdLine,
   int nCmdShow) {
-  // Create message-only window
-  HWND hWnd = NULL;
+  // Register window class
   WNDCLASSEX wc = {};
   wc.cbSize = sizeof(WNDCLASSEX);
   wc.lpfnWndProc = WndProc;
   wc.hInstance = hInstance;
   wc.lpszClassName = className;
-  if (RegisterClassEx(&wc)) {
-    hWnd =
-      CreateWindowEx(0, className, L"", 0, 0, 0, 0, 0, HWND_MESSAGE, 0, 0, 0);
+  if (!RegisterClassEx(&wc)) {
+    std::wcout << "Failed to register the window class.\n";
+    return Exit(DumpLastError());
   }
+
+  // Create message-only window
+  HWND hWnd =
+    CreateWindowEx(0, className, L"", 0, 0, 0, 0, 0, HWND_MESSAGE, 0, 0, 0);
   if (hWnd == NULL) {
     std::wcout << "Failed to create a message-only window.\n";
-    return Exit(1);
+    return Exit(DumpLastError());
   }
 
   // Inject hook DLL
   HMODULE hookDll = LoadLibrary(L"hook.dll");
   if (hookDll == NULL) {
     std::wcout << "Failed to load the hook.dll library.\n";
-    return Exit(1);
+    return Exit(DumpLastError());
   }
   HOOK_REGISTER RegisterHook =
     (HOOK_REGISTER)GetProcAddress(hookDll, "RegisterHook");
   HOOK_UNREGISTER UnregisterHook =
     (HOOK_UNREGISTER)GetProcAddress(hookDll, "UnregisterHook");
   if (RegisterHook == NULL || UnregisterHook == NULL) {
-    std::wcout << "Failed to locate the exported DLL functions.\n";
     FreeLibrary(hookDll);
+    std::wcout << "Failed to locate the exported DLL functions.\n";
     return Exit(1);
   }
   RegisterHook(hWnd);
@@ -86,10 +90,10 @@ int WINAPI WinMain(
   BOOL bRet;
   while ((bRet = GetMessage(&msg, hWnd, 0, 0)) != 0) {
     if (bRet == -1) {
-      std::wcout << "Message error: " << bRet << "\n";
-      (void)_getch();
-      break;
-    } else if (bRet == 0) {
+      return Exit(DumpLastError());
+    }
+
+    if (bRet == 0) {
       break;
     }
 
