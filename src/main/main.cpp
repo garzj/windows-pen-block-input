@@ -13,9 +13,11 @@ void OnPointerEnter(bool entered, POINTER_INPUT_TYPE pointerType) {
   if (entered) {
     nPointersPen++;
     std::wcout << "Pen pointer entered!\n";
+    BlockInput(TRUE);
   } else {
     nPointersPen--;
     std::wcout << "Pen pointer left!\n";
+    BlockInput(FALSE);
   }
 }
 
@@ -30,6 +32,14 @@ LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
   }
 
   return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
+int Exit(int code, bool confirm = true) {
+  BlockInput(FALSE);
+  if (confirm) {
+    (void)_getch();
+  }
+  return code;
 }
 
 int WINAPI WinMain(
@@ -50,16 +60,14 @@ int WINAPI WinMain(
   }
   if (hWnd == NULL) {
     std::wcout << "Failed to create a message-only window.\n";
-    (void)_getch();
-    return 1;
+    return Exit(1);
   }
 
   // Inject hook DLL
   HMODULE hookDll = LoadLibrary(L"hook.dll");
   if (hookDll == NULL) {
     std::wcout << "Failed to load the hook.dll library.\n";
-    (void)_getch();
-    return 1;
+    return Exit(1);
   }
   HOOK_REGISTER RegisterHook =
     (HOOK_REGISTER)GetProcAddress(hookDll, "RegisterHook");
@@ -68,8 +76,7 @@ int WINAPI WinMain(
   if (RegisterHook == NULL || UnregisterHook == NULL) {
     std::wcout << "Failed to locate the exported DLL functions.\n";
     FreeLibrary(hookDll);
-    (void)_getch();
-    return 1;
+    return Exit(1);
   }
   RegisterHook(hWnd);
   std::wcout << "Injected global pointer hook.\n";
@@ -93,5 +100,5 @@ int WINAPI WinMain(
   UnregisterHook();
   FreeLibrary(hookDll);
 
-  return 0;
+  return Exit(0, false);
 }
