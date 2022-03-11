@@ -6,42 +6,9 @@
 
 wchar_t className[] = L"StylusDisableKeyboard";
 
-int nPointersPen = 0;
-
-void OnPointerEnter(bool entered, POINTER_INPUT_TYPE pointerType) {
-  if (pointerType != PT_PEN) return;
-
-  if (entered) {
-    nPointersPen++;
-    std::wcout << "Pen pointer entered!\n";
-    BlockInput(TRUE);
-  } else {
-    nPointersPen--;
-    std::wcout << "Pen pointer left!\n";
-    BlockInput(FALSE);
-  }
-}
-
-LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-  switch (uMsg) {
-  case UWM_POINER_ENTER:
-    OnPointerEnter(true, (POINTER_INPUT_TYPE)lParam);
-    break;
-  case UWM_POINER_LEAVE:
-    OnPointerEnter(false, (POINTER_INPUT_TYPE)lParam);
-    break;
-  }
-
-  return DefWindowProc(hWnd, uMsg, wParam, lParam);
-}
-
-int Exit(int code, bool confirm = true) {
-  BlockInput(FALSE);
-  if (confirm) {
-    (void)_getch();
-  }
-  return code;
-}
+void OnPointerEnter(bool entered, POINTER_INPUT_TYPE pointerType);
+LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+int Exit(int code, bool confirm = true);
 
 int WINAPI WinMain(
   HINSTANCE hInstance,
@@ -105,4 +72,41 @@ int WINAPI WinMain(
   FreeLibrary(hookDll);
 
   return Exit(0, false);
+}
+
+int nPointersPen = 0;
+
+void OnPointerEnter(bool entered, POINTER_INPUT_TYPE pointerType) {
+  if (pointerType != PT_PEN) return;
+
+  if (entered) {
+    nPointersPen++;
+    std::wcout << "Pen pointer entered!\n";
+    BlockInput(TRUE);
+  } else {
+    nPointersPen--;
+    std::wcout << "Pen pointer left!\n";
+    BlockInput(FALSE);
+  }
+}
+
+LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+  switch (uMsg) {
+  case UWM_POINER_ENTER:
+    OnPointerEnter(true, (POINTER_INPUT_TYPE)lParam);
+    break;
+  case UWM_POINER_LEAVE:
+    OnPointerEnter(false, (POINTER_INPUT_TYPE)lParam);
+    break;
+  }
+
+  return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
+int Exit(int code, bool confirm = true) {
+  BlockInput(FALSE);
+  if (confirm) {
+    (void)_getch();
+  }
+  return code;
 }
