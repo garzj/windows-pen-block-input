@@ -20,8 +20,6 @@ __declspec(dllexport) BOOL RegisterHook(HWND hWnd) {
   hWndMain = hWnd;
   hHook = SetWindowsHookEx(WH_GETMESSAGE, GetMsgProc, hInstance, 0);
 
-  PostMessage(hWndMain, UWM_POINTER_UPDATE, 0, 0);
-
   return TRUE;
 }
 
