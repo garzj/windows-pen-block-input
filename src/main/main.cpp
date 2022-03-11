@@ -5,21 +5,27 @@
 
 wchar_t className[] = L"StylusDisableKeyboard";
 
-void OnPointerEnter(bool entered, UINT32 pointerId) {
+int nPointersPen = 0;
+
+void OnPointerEnter(bool entered, POINTER_INPUT_TYPE pointerType) {
+  if (pointerType != PT_PEN) return;
+
   if (entered) {
-    std::wcout << "Pointer entered: " << pointerId << "\n";
+    nPointersPen++;
+    std::wcout << "Pen pointer entered!\n";
   } else {
-    std::wcout << "Pointer left: " << pointerId << "\n";
+    nPointersPen--;
+    std::wcout << "Pen pointer left!\n";
   }
 }
 
 LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
   switch (uMsg) {
   case UWM_POINER_ENTER:
-    OnPointerEnter(true, GET_POINTERID_WPARAM(wParam));
+    OnPointerEnter(true, (POINTER_INPUT_TYPE)lParam);
     break;
   case UWM_POINER_LEAVE:
-    OnPointerEnter(false, GET_POINTERID_WPARAM(wParam));
+    OnPointerEnter(false, (POINTER_INPUT_TYPE)lParam);
     break;
   }
 

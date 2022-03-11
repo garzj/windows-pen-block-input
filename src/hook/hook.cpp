@@ -52,10 +52,17 @@ LRESULT CALLBACK GetMsgProc(int code, WPARAM wParam, LPARAM lParam) {
   }
 
   MSG *msg = (MSG *)lParam;
-  if (msg->message == WM_POINTERENTER) {
-    PostMessage(hWndMain, UWM_POINER_ENTER, msg->wParam, msg->lParam);
-  } else if (msg->message == WM_POINTERLEAVE) {
-    PostMessage(hWndMain, UWM_POINER_LEAVE, msg->wParam, msg->lParam);
+  if (msg->message == WM_POINTERENTER || msg->message == WM_POINTERLEAVE) {
+    UINT32 pointerId = GET_POINTERID_WPARAM(msg->wParam);
+    POINTER_INPUT_TYPE pointerType;
+    if (!GetPointerType(pointerId, &pointerType))
+      return CallNextHookEx(hHook, code, wParam, lParam);
+
+    if (msg->message == WM_POINTERENTER) {
+      PostMessage(hWndMain, UWM_POINER_ENTER, msg->wParam, (LPARAM)pointerType);
+    } else {
+      PostMessage(hWndMain, UWM_POINER_LEAVE, msg->wParam, (LPARAM)pointerType);
+    }
   }
   // GetLastError() could result in error 5 here, because of UIPI
 
