@@ -103,7 +103,7 @@ LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
   return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-int Exit(int code, bool confirm = true) {
+int Exit(int code, bool confirm) {
   BlockInput(FALSE);
   if (confirm) {
     (void)_getch();
