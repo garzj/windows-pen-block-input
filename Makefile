@@ -13,6 +13,11 @@ build_dir = build
 binary_name = $(build_dir)/$(name)
 binary = $(binary_name).exe
 
+cert_key = $(build_dir)/cert_key
+cert_cer = $(build_dir)/testcert.cer
+cert_pfx = $(build_dir)/testcert.pfx
+cert_params = $(cert_key) $(cert_cer) $(cert_pfx)
+
 cpp_files = $(call rwildcard,src/,*.cpp)
 
 gcc_args = -lgdi32 -static-libgcc -static-libstdc++ \
@@ -27,6 +32,7 @@ build: build_dir $(cpp_files)
 	g++ \
 		-o $(binary_name) $(cpp_files) \
 		$(gcc_args)
+	make sign
 
 run:
 	$(call winpath,$(binary))
@@ -38,6 +44,25 @@ watch:
 
 build_dir:
 	$(call mkdir,$(build_dir))
+
+add-cert: build_dir
+	powershell -c \
+		"Set-ExecutionPolicy Unrestricted; \
+		& .\certgen.ps1 $(call winpath,$(cert_params))"
+	certutil -user -addstore Root $(cert_cer)
+
+sign:
+	if not exist $(cert_key) make add-cert
+	cmd /v /c "\
+		set /p certKey=<$(call winpath,$(cert_key)) && \
+		signtool sign /f $(cert_pfx) \
+			/t http://timestamp.comodoca.com/authenticode \
+			/p !certKey! \
+			/a /fd SHA256 /v $(binary)"
+
+del-cert:
+	certutil -user -delstore Root $(cert_cer)
+	del $(call winpath,$(cert_params))
 
 dll-dump:
 	objdump -p $(binary) | findstr "DLL Name:"
