@@ -65,7 +65,7 @@ sign:
 			/a /fd SHA256 /v $(binary)"
 
 del-cert:
-	certutil -user -delstore Root $(cert_cer)
+	certdel.bat Root $(cert_cer)
 	del $(call winpath,$(cert_params))
 
 dll-dump:
