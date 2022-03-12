@@ -36,7 +36,7 @@ build: build_dir $(cpp_files)
 	g++ \
 		-o $(binary_name) $(cpp_files) $(resources_obj) \
 		$(gcc_args)
-	make sign
+	make enable-uiaccess
 
 run:
 	$(call winpath,$(binary))
@@ -48,6 +48,9 @@ watch:
 
 build_dir:
 	$(call mkdir,$(build_dir))
+
+enable-uiaccess: sign
+	reg add HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableSecureUIAPaths /t REG_DWORD /d 0 /f
 
 add-cert: build_dir
 	powershell -c \
