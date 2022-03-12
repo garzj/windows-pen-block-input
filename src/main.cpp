@@ -45,7 +45,7 @@ int WINAPI WinMain(
   }
 
   // Listen for pen input
-  if (!RegisterPointerInputTarget(hWnd, PT_TOUCH)) {
+  if (!RegisterPointerInputTarget(hWnd, PT_PEN)) {
     std::wcout << "Failed to register the window as a pointer input target.\n ";
     return Exit(DumpLastError());
   }
@@ -72,8 +72,10 @@ int WINAPI WinMain(
 LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
   switch (uMsg) {
   case WM_POINTERDOWN:
-    MessageBox(NULL, L"This is the way", L"", MB_OK);
-    std::wcout << "this is the way\n";
+    BlockInput(TRUE);
+    break;
+  case WM_POINTERUP:
+    BlockInput(FALSE);
     break;
   }
 
