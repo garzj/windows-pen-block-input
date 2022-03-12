@@ -27,8 +27,8 @@ TLDR: Make sure to run `make` as administrator as it will try to install a self 
 
 If you want to send this program to other PCs, you'll need the following three files:
 
-- `uiaccess.reg`: Run this script at first.
-- `build/testcert.cer`: Then install this certificate for the current user into `cert:\CurrentUser\My` -> Root
-- `build/stylus-block-input.exe`: Now start the program and it should just run in the background and work :)
+- `uiaccess.reg`: Just run this script
+- `build/testcert.cer`: Install this certificate by opening it into Current User -> Automatically select the certificate store
+- `build/stylus-block-input.exe`: Now start the program and it should just work in the background :)
 
 Kill the program with `taskkill /F /IM stylus-block-input.exe`
