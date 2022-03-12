@@ -35,6 +35,8 @@ build: build_dir $(cpp_files)
 		$(gcc_args)
 	make uiaccess sign
 
+dev: build
+
 # UIAccess
 uiaccess:
 	reg import uiaccess.reg
