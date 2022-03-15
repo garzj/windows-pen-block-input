@@ -6,7 +6,9 @@ A windows app that blocks other user inputs while a stylus pen is used.
 
 - MinGW with make (best installed with Chocolatey)
 - [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/) -> Windows App Certification Kit  
-  Make sure you add it to your path, it's normally in "C:\Program Files (x86)\Windows Kits\10\App Certification Kit\"
+  Make sure you add it to your PATH, it's normally in "C:\Program Files (x86)\Windows Kits\10\App Certification Kit\"
+- [WiX Toolset](https://wixtoolset.org/releases/) (to create an installer)  
+  This should also be added to your PATH: `%wix%\bin`
 
 ## Usage
 

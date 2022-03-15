@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?define Name='Stylus Block Input'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+  <Product Id='*' Name='$(var.Name)' Language='1033' Version='1.0.0' Manufacturer='Johannes Garz' UpgradeCode='7176359a-76b5-4fc1-ac17-551cb6fd23ac'>
+    <Package InstallerVersion='200' Compressed='yes' InstallScope='perMachine' InstallPrivileges='elevated' />
+
+    <Media Id='1' Cabinet='StylusBlockInput.cab' EmbedCab='yes' />
+
+    <MajorUpgrade DowngradeErrorMessage='A newer version of [ProductName] is already installed.' />
+
+    <Feature Id='ProductFeature' Title='$(var.Name)' Level='1'>
+      <ComponentGroupRef Id='ProductComponents' />
+    </Feature>
+
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='ProgramFilesFolder'>
+        <Directory Id='INSTALLDIR' Name='$(var.Name)' />
+      </Directory>
+    </Directory>
+
+    <ComponentGroup Id='ProductComponents' Directory='INSTALLDIR'>
+      <Component Id='StylusBlockInput.exe' Guid='*'>
+        <File Id='StylusBlockInput.exe' Source='..\build\stylus-block-input.exe' />
+      </Component>
+    </ComponentGroup>
+  </Product>
+</Wix>

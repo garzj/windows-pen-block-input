@@ -70,6 +70,11 @@ sign: cert-install
 			/p !certKey! \
 			/a /fd SHA256 /v $(binary)"
 
+# Installer
+installer: build_dir build
+	candle installer\StylusBlockInput.wxs -o "installer\\"
+	light installer\StylusBlockInput.wixobj -o installer\StylusBlockInput.msi
+
 # DLL dump
 dll-dump:
 	objdump -p $(binary) | findstr "DLL Name:"
