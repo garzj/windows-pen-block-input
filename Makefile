@@ -72,8 +72,8 @@ sign: cert-install
 
 # Installer
 installer: build_dir build
-	candle installer\StylusBlockInput.wxs -o "installer\\"
-	light installer\StylusBlockInput.wixobj -o installer\StylusBlockInput.msi
+	candle -ext WixIISExtension installer\StylusBlockInput.wxs -o "installer\\"
+	light -ext WixIISExtension installer\StylusBlockInput.wixobj -o installer\StylusBlockInput.msi
 
 # DLL dump
 dll-dump:
