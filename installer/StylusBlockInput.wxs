@@ -22,7 +22,7 @@
 
     <ComponentGroup Id='ProductComponents' Directory='INSTALLDIR'>
       <Component Id='StylusBlockInput.exe' Guid='*'>
-        <File Id='StylusBlockInput.exe' Source='..\build\stylus-block-input.exe' />
+        <File Id='StylusBlockInput.exe' Source='..\build\StylusBlockInput.exe' />
       </Component>
 
       <Component Id='cert.cer' Guid='8b9c1eff-6c91-4d2b-960a-9b0fda7d47cd'>
@@ -35,13 +35,13 @@
       </Component>
     </ComponentGroup>
 
-    <CustomAction Id='KillApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c "taskkill /F /IM stylus-block-input.exe"' Return='ignore' />
+    <CustomAction Id='KillApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c "taskkill /F /IM StylusBlockInput.exe"' Return='ignore' />
 
     <CustomAction Id='UninstallTask' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='"[SystemFolder]schtasks.exe" /delete /f /tn "Stylus Block Input"' Return='ignore' />
 
-    <CustomAction Id='InstallTask' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c ""[INSTALLDIR]install-task.bat" "[INSTALLDIR]stylus-block-input.exe""' Return='ignore' />
+    <CustomAction Id='InstallTask' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c ""[INSTALLDIR]install-task.bat" "[INSTALLDIR]StylusBlockInput.exe""' Return='ignore' />
 
-    <CustomAction Id='StartApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c start "" "[INSTALLDIR]stylus-block-input.exe"' Return='asyncNoWait' />
+    <CustomAction Id='StartApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c start "" "[INSTALLDIR]StylusBlockInput.exe"' Return='asyncNoWait' />
 
     <InstallExecuteSequence>
       <Custom Action='KillApp' After='InstallInitialize'>REMOVE="ALL"</Custom>

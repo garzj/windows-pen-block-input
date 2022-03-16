@@ -4,7 +4,7 @@ winpath = $(subst /,\,$1)
 mkdir = if not exist $(call winpath,$1) mkdir $(call winpath,$1)
 
 # Main
-name = stylus-block-input
+name = StylusBlockInput
 
 all: build
 

@@ -31,6 +31,6 @@ If you want to send this program to other PCs, you'll need the following three f
 
 - `uiaccess.reg`: Just run this script
 - `build/testcert.cer`: Install this certificate by opening it into Current User -> Automatically select the certificate store
-- `build/stylus-block-input.exe`: Now start the program and it should just work in the background :)
+- `build/StylusBlockInput.exe`: Now start the program and it should just work in the background :)
 
-Kill the program with `taskkill /F /IM stylus-block-input.exe`
+Kill the program with `taskkill /F /IM StylusBlockInput.exe`
