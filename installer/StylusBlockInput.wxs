@@ -39,7 +39,7 @@
 
     <CustomAction Id='UninstallTask' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='"[SystemFolder]schtasks.exe" /delete /f /tn "Stylus Block Input"' Return='ignore' />
 
-    <CustomAction Id='InstallTask' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c ""[INSTALLDIR]install-task.bat" "[INSTALLDIR]stylus-block-input.exe""' />
+    <CustomAction Id='InstallTask' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c ""[INSTALLDIR]install-task.bat" "[INSTALLDIR]stylus-block-input.exe""' Return='ignore' />
 
     <CustomAction Id='StartApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c start "" "[INSTALLDIR]stylus-block-input.exe"' Return='asyncNoWait' />
 
