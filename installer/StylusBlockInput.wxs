@@ -31,9 +31,13 @@
       </Component>
     </ComponentGroup>
 
-    <CustomAction Id='KillApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd.exe /c "taskkill /F /IM stylus-block-input.exe"' Return='check' />
+    <CustomAction Id='KillApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd.exe /c "taskkill /F /IM stylus-block-input.exe"' Return='ignore' />
+
+    <CustomAction Id='StartApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c start "" "[INSTALLDIR]stylus-block-input.exe"' Return='asyncNoWait' />
+
     <InstallExecuteSequence>
       <Custom Action='KillApp' After='InstallInitialize'>REMOVE="ALL"</Custom>
+      <Custom Action='StartApp' Before='InstallFinalize'>NOT Installed</Custom>
     </InstallExecuteSequence>
   </Product>
 </Wix>
