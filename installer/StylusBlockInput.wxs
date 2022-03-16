@@ -31,12 +31,18 @@
       </Component>
     </ComponentGroup>
 
-    <CustomAction Id='KillApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd.exe /c "taskkill /F /IM stylus-block-input.exe"' Return='ignore' />
+    <CustomAction Id='KillApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c "taskkill /F /IM stylus-block-input.exe"' Return='ignore' />
+
+    <CustomAction Id='UninstallTask' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='"[SystemFolder]schtasks.exe" /delete /f /tn "Stylus Block Input"' Return='ignore' />
+
+    <CustomAction Id='InstallTask' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c schtasks /create /tn "Stylus Block Input" /sc ONLOGON /rl HIGHEST /tr "[INSTALLDIR]stylus-block-input.exe" /it /ru "%username%"' />
 
     <CustomAction Id='StartApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd /c start "" "[INSTALLDIR]stylus-block-input.exe"' Return='asyncNoWait' />
 
     <InstallExecuteSequence>
       <Custom Action='KillApp' After='InstallInitialize'>REMOVE="ALL"</Custom>
+      <Custom Action='UninstallTask' After='InstallInitialize'>REMOVE="ALL"</Custom>
+      <Custom Action='InstallTask' Before='InstallFinalize'>NOT Installed</Custom>
       <Custom Action='StartApp' Before='InstallFinalize'>NOT Installed</Custom>
     </InstallExecuteSequence>
   </Product>
