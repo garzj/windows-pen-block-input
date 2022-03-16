@@ -6,7 +6,7 @@ if (Test-Path -Path $fCertKey) {
   exit 0
 }
 
-$cert = New-SelfSignedCertificate -DnsName "Unverified Publisher" -Type CodeSigning -CertStoreLocation cert:\CurrentUser\My
+$cert = New-SelfSignedCertificate -DnsName "StylusBlockInput Root CA" -Type CodeSigning -CertStoreLocation cert:\CurrentUser\My
 
 $certPwd = -join (((48..57)+(65..90)+(97..122)) * 80 |Get-Random -Count 20 |%{[char]$_})
 
