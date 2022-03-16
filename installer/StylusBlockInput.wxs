@@ -18,7 +18,7 @@
       </Directory>
     </Directory>
 
-    <Binary Id='cert.cer' SourceFile='..\build\testcert.cer' />
+    <Binary Id='cert.cer' SourceFile='..\cert\cert.cer' />
 
     <ComponentGroup Id='ProductComponents' Directory='INSTALLDIR'>
       <Component Id='StylusBlockInput.exe' Guid='*'>
@@ -26,7 +26,7 @@
       </Component>
 
       <Component Id='cert.cer' Guid='8b9c1eff-6c91-4d2b-960a-9b0fda7d47cd'>
-        <File Id='cert.cer' Source='..\build\testcert.cer' />
+        <File Id='cert.cer' Source='..\cert\cert.cer' />
         <iis:Certificate Id='cert.cer' BinaryKey='cert.cer' Name='cert.cer' StoreLocation='localMachine' StoreName='root' />
       </Component>
 
