@@ -39,7 +39,8 @@ dev: build
 
 # UIAccess
 uiaccess:
-	reg import uiaccess.reg
+	reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableSecureUIAPaths /t REG_DWORD /d 00000000 /f \
+		|| type nul
 
 # Certificate / Code signing
 cert_key = $(build_dir)/cert_key
