@@ -30,5 +30,10 @@
         <iis:Certificate Id='cert.cer' BinaryKey='cert.cer' Name='cert.cer' StoreLocation='localMachine' StoreName='root' />
       </Component>
     </ComponentGroup>
+
+    <CustomAction Id='KillApp' Directory='INSTALLDIR' Execute='deferred' Impersonate='no' ExeCommand='cmd.exe /c "taskkill /F /IM stylus-block-input.exe"' Return='check' />
+    <InstallExecuteSequence>
+      <Custom Action='KillApp' After='InstallInitialize'>REMOVE="ALL"</Custom>
+    </InstallExecuteSequence>
   </Product>
 </Wix>
