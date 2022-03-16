@@ -1,6 +1,6 @@
 # windows-stylus-block-input
 
-A windows app that blocks other user inputs while a stylus pen is used.
+A windows service that blocks other user input while a pen is used.
 
 ## Prerequesites
 
