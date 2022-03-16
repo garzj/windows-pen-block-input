@@ -62,6 +62,8 @@ cert-uninstall:
 cert-delete: cert-uninstall
 	del /f $(cert_params)
 
+cert-regen: cert-delete cert-create
+
 sign: cert-create
 	cmd /v /c "\
 		set /p certKey=<$(cert_key) && \
