@@ -1,3 +1,10 @@
+function Gen-Key($length) {
+  $characters = 'abcdefghiklmnoprstuvwxyzABCDEFGHKLMNOPRSTUVWXYZ1234567890'
+  $random = 1..$length | ForEach-Object { Get-Random -Maximum $characters.length }
+  $private:ofs = ''
+  return [String]$characters[$random]
+}
+
 $fCertKey = $args[0]
 $fCertCer = $args[1]
 $fCertPfx = $args[2]
@@ -8,7 +15,7 @@ if (Test-Path -Path $fCertKey) {
 
 $cert = New-SelfSignedCertificate -DnsName "StylusBlockInput Root CA" -Type CodeSigning -CertStoreLocation cert:\CurrentUser\My
 
-$certPwd = -join (((48..57)+(65..90)+(97..122)) * 80 |Get-Random -Count 20 |%{[char]$_})
+$certPwd = Gen-Key -length 64
 
 Set-Content $fCertKey $certPwd
 
