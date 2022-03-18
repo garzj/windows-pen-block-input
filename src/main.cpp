@@ -5,8 +5,7 @@
 
 wchar_t className[] = L"StylusBlockInput";
 
-void OnPointerEnter(bool entered, POINTER_INPUT_TYPE pointerType);
-LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int Exit(int code, bool confirm = true);
 
 int WINAPI WinMain(
