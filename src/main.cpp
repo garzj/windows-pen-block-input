@@ -6,6 +6,7 @@
 wchar_t className[] = L"StylusBlockInput";
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+void Enter();
 int Exit(int code, bool confirm = true);
 
 int WINAPI WinMain(
@@ -13,6 +14,8 @@ int WINAPI WinMain(
   HINSTANCE hPrevInstance,
   LPSTR lpCmdLine,
   int nCmdShow) {
+  Enter();
+
   // Register window class
   WNDCLASSEX wc = {};
   wc.cbSize = sizeof(WNDCLASSEX);
@@ -71,18 +74,23 @@ int WINAPI WinMain(
 LRESULT WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
   switch (uMsg) {
   case WM_POINTERDOWN:
-    BlockInput(TRUE);
+    BlockKeyboard(true);
     break;
   case WM_POINTERUP:
-    BlockInput(FALSE);
+    BlockKeyboard(false);
     break;
   }
 
   return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
+void Enter() {
+  RegisterBlockKeyboardHook();
+}
+
 int Exit(int code, bool confirm) {
-  BlockInput(FALSE);
+  UnregisterBlockKeyboardHook();
+
   if (confirm) {
     (void)_getch();
   }

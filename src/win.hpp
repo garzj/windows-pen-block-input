@@ -5,3 +5,7 @@
 #define _UNICODE
 
 #include <windows.h>
+
+void RegisterBlockKeyboardHook();
+void UnregisterBlockKeyboardHook();
+void BlockKeyboard(bool block);
