@@ -37,7 +37,7 @@ build: build_dir $(cpp_files)
 dev: build
 
 # Allow UIAccess from insecure paths
-uiaccess:
+uiaccess: cert-install
 	reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableSecureUIAPaths /t REG_DWORD /d 00000000 /f \
 		|| type nul
 
