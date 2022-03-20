@@ -23,7 +23,7 @@ cpp_files = $(call rwildcard,src/,*.cpp)
 
 gcc_args = -lgdi32 -static-libgcc -static-libstdc++ \
 	-Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive
-ifneq ($(MAKECMDGOALS),dev)
+ifeq (,$(filter $(MAKECMDGOALS),dev))
 	gcc_args += -mwindows
 endif
 
